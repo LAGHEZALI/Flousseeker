@@ -1,0 +1,29 @@
+:host {
+  padding: 64px 32px;
+  display: block;
+  background: #333;
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+
+  background: #333;
+
+}
+
+.content {
+  position: fixed;
+  bottom: 30%;
+  left: 0%;
+  padding: 3.5vw;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  min-width: 100%;
+  width: 100%;
+  z-index: 2;
+}
+

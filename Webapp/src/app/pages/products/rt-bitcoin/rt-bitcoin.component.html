@@ -1,0 +1,34 @@
+<div class="aaaa">
+  <div id="wrapper">
+    <div id="main">
+
+      <h1 style="font-size: 4vmax" class="fgbg2 w3-round-xxlarge">Real Time Bitcoin Value</h1>
+
+        <div class="fgbg w3-round-xxlarge">
+
+          <h1 class="ktaba">1 <i class="ktaba2">BTC</i> <span class="w3-xxxlarge">=</span></h1>
+          <ng2-odometer class="ktaba"
+                        [number]="value"
+                        [config]="{ auto: false }"
+                        [observable]="observable"
+                        [theme]="'default'"
+                        [animation]="'slide'"
+                        [format]="'(,ddd).dd'"
+                        [value]="0" >
+          </ng2-odometer> <i class="ktaba2"> USD</i>
+
+          <p>
+            <button class="w3-xlarge w3-margin" color="primary" mat-raised-button> <i class="fas fa-exchange-alt" style="margin-right: 10px"></i>More Conversions</button>
+            <button class="w3-xlarge w3-margin" color="primary" mat-raised-button> <i class="fas fa-shopping-cart" style="margin-right: 10px"></i>Buy Some</button>
+          </p>
+
+        </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 'slide' or 'count' -->

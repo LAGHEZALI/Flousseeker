@@ -1,0 +1,55 @@
+<ng-container class="container bgfg" >
+
+  <mat-horizontal-stepper class="bgfg" [linear]="true" #stepper="matHorizontalStepper">
+
+    <ng-template matStepperIcon="edit">
+      <mat-icon><i class="fab fa-foursquare" style="padding-left: 2px"></i></mat-icon>
+    </ng-template>
+
+    <ng-template matStepperIcon="done">
+      <mat-icon><i class="fab fa-foursquare" style="padding-left: 2px"></i></mat-icon>
+    </ng-template>
+
+    <mat-step class="product-step" *ngFor="let product of myProducts; let i = index" [completed]="complete" active="true" label="{{product.title}}">
+
+      <mat-card>
+
+        <mat-grid-list cols="2" rowHeight="100px">
+
+          <mat-grid-tile [colspan]="2" [rowspan]="1">
+
+            <mat-toolbar color="primary">
+
+              <span class="title">{{product.title}}</span>
+
+              <span class="fill-remaining-space"></span>
+
+              <button *ngIf="i!=0" mat-button color="accent" matStepperPrevious><i class="fas fa-arrow-circle-left fa-3x navigation-icon"></i></button>
+              <button *ngIf="i!=myProducts.length-1" mat-button color="accent" matStepperNext><i class="fas fa-arrow-circle-right fa-3x navigation-icon"></i></button>
+
+            </mat-toolbar>
+
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
+            <img class="w3-image w3-round w3-border w3-padding" mat-card-image src="{{product.imgFileName}}" alt="Photo of a Shiba Inu">
+          </mat-grid-tile>
+
+          <mat-grid-tile class="w3-margin w3-padding-large product-description" [colspan]="1" [rowspan]="2">
+            {{product.description}}
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <button routerLink="{{product.link}}" mat-raised-button color="primary"
+                    class="try-it">Try It Now !</button>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+
+      </mat-card>
+
+    </mat-step>
+
+  </mat-horizontal-stepper>
+
+</ng-container>

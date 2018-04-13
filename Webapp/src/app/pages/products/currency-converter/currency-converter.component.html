@@ -1,0 +1,58 @@
+<div class="w3-container aaaa">
+
+    <div id="wrapper">
+        <div id="main">
+
+          <h1 style="font-size: 4vmax; color: #ddd" class="fgbg2 w3-round-xxlarge">Currency Converter</h1>
+
+            <div class="fgbg w3-round-xxlarge">
+
+                <mat-vertical-stepper [linear]="isLinear" #stepper="matVerticalStepper">
+
+                    <mat-step [stepControl]="firstFormGroup">
+                      <form [formGroup]="firstFormGroup">
+                        <ng-template matStepLabel>Bitcoin Amount</ng-template>
+                        <mat-form-field>
+                          <input matInput type="number" placeholder="Amount" formControlName="firstCtrl" required>
+                        </mat-form-field>
+                        <div>
+                          <button class="w3-margin" color="primary" mat-raised-button matStepperNext>Next</button>
+                        </div>
+                      </form>
+                    </mat-step>
+
+                    <mat-step [stepControl]="secondFormGroup">
+                        <form [formGroup]="secondFormGroup">
+                          <ng-template matStepLabel>Destination Currency</ng-template>
+                          <mat-form-field>
+                              <mat-select placeholder="Currency List" formControlName="secondCtrl" required>
+                              <mat-option>-----</mat-option>
+                              <mat-option *ngFor="let curr of currency" [value]="curr">
+                                {{curr.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <div>
+                            <button color="primary" mat-raised-button matStepperPrevious>Back</button>
+                            <button class="w3-margin" color="primary" (click)="getBtcValue()" mat-raised-button matStepperNext>Convert</button>
+                          </div>
+                        </form>
+                      </mat-step>
+
+                    <mat-step>
+                      <ng-template matStepLabel>Conversion Result</ng-template>
+                      {{valueBTC}}
+                      <div>
+                        <button class="w3-margin" color="accent" mat-raised-button (click)="stepper.reset()">New Conversion</button>
+                      </div>
+                    </mat-step>
+
+                  </mat-vertical-stepper>
+
+            </div>
+
+
+        </div>
+      </div>
+
+</div>

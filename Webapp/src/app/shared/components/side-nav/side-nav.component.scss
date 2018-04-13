@@ -1,0 +1,41 @@
+.bgfg {
+  background-color: #eee;
+  color: #222;
+}
+
+.container {
+  position: absolute;
+  top: 60px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+
+.sidenav {
+  background-color: #222;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25vmax;
+}
+
+.divider {
+  background: #fdd835;
+  height: 1px;
+  width: 100%;
+}
+
+.menu-option {
+  font-size: calc(12px + 0.5vw);
+  line-height: calc(1.1em + 0.5vw);
+  margin: 0;
+}
+
+.menu-option-icon {
+  margin: 0;
+  color: #FDD835;
+  max-width: 3vw;
+  max-height: 3vw;
+  margin-right: 1vw;
+}

@@ -1,0 +1,23 @@
+<div class="w3-center w3-margin">
+
+  <div class="w3-dropdown-hover">
+    <button class="w3-button w3-yellow">Sentiment Analysis</button>
+    <div class="w3-dropdown-content w3-khaki w3-bar-block w3-card-4">
+      <a [routerLink]="['/products/statistics/sentiment', 'day']" class="w3-bar-item w3-button">Last 24h</a>
+      <a [routerLink]="['/products/statistics/sentiment', 'week']" class="w3-bar-item w3-button">Last week</a>
+      <a [routerLink]="['/products/statistics/sentiment', 'month']" class="w3-bar-item w3-button">Last month</a>
+    </div>
+  </div>
+
+  <div class="w3-dropdown-hover">
+    <button class="w3-button w3-yellow">Bitcoin Evolution</button>
+    <div class="w3-dropdown-content w3-khaki w3-bar-block w3-card-4">
+      <a [routerLink]="['/products/statistics/bitcoin', 'day']" class="w3-bar-item w3-button">Last 24h</a>
+      <a [routerLink]="['/products/statistics/bitcoin', 'week']" class="w3-bar-item w3-button">Last week</a>
+      <a [routerLink]="['/products/statistics/bitcoin', 'month']" class="w3-bar-item w3-button">Last month</a>
+    </div>
+  </div>
+
+</div>
+
+<router-outlet></router-outlet>
