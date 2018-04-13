@@ -46,4 +46,8 @@ export class RtBitcoinComponent implements OnInit {
       );
   }
 
+  buy() {
+    window.location.href='https://bitcoin.org/en/buy';
+  }
+
 }

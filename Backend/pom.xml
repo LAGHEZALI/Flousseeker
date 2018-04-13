@@ -61,6 +61,13 @@
             <version>2.11.8</version>
         </dependency>
 
+        <!-- JACKSON-SCALA MODULE -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-scala_2.11</artifactId>
+            <version>2.6.7.1</version>
+        </dependency>
+
         <!-- TWITTER4J -->
         <dependency>
             <groupId>org.twitter4j</groupId>

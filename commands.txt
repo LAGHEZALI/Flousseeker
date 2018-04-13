@@ -1,0 +1,14 @@
+
+======= BACKEND =======
+
+java -jar Backend/run/jars/GetApiData.jar
+
+java -jar Backend/run/jars/GetApiDataDebug.jar
+
+java -jar Backend/run/jars/RunAnalytics.jar
+
+java -jar Backend/run/jars/FillGeocoder.jar
+
+======= WEB APP =======
+
+node Webapp/server.js

@@ -73,24 +73,6 @@ router.route('/tweets')
         });
     });
 
-// on routes that end in /tweets/old/:days
-// ----------------------------------------------------
-router.route('/tweets/old/:days')
-    // get the
-    .get(function(req, res) {
-        var temp = 86400;
-        var currentDate = new Date();
-        var currentTime = Date.now();
-        console.log("Days : " + req.params.days + "\n Current date : " + currentTime);
-        Tweet.find({ Date: { $gt: currentDate - req.params.days * temp } }, function(err, tweets) {
-            if (err)
-                res.send(err);
-            res.json(tweets);
-        });
-    });
-
-
-
 // chart
 // ----------------------------------------------------
 router.route('/charts/:name/:delay')
@@ -160,14 +142,12 @@ router.route('/charts/:name/:delay')
 // all of our routes will be  prefixed with /api
 app.use('/api', router);
 
-
-
 // on routes that end in /rtbtc
 // ----------------------------------------------------
 router.route('/rtbtc')
     // get the tweet with that id
     .get(function(req, res) {
-        res.json({ value: 8932.60 });
+        res.json({ value: rtbtc });
     });
 
 // on routes that end in /rttweet
@@ -250,37 +230,29 @@ const tweetConsumer = new Consumer(
     }
 );
 
-var tweetUsert;
-var tweetText;
-var tweetTime;
-var tweetGeo;
-
 //  TWEET CONSUMER
 tweetConsumer.on('message', function(tweet) {
 
     var obj = JSON.parse(tweet.value);
 
-
-    //tweetUsert    = obj.username;
-    //tweetText     = obj.text;
-    //tweetDate     = tweetArray[2];
-    tweetGeoLabel = obj.geolocalisation.label;
     tweetGeoLat = obj.geolocalisation.lat;
     tweetGeoLng = obj.geolocalisation.lng;
 
     tweetPing.push(tweetGeoLat);
     tweetPing.push(tweetGeoLng);
 
-    console.log("=== NEW TWEET FROM  ===> " + tweetGeoLabel + " ( lat: " + tweetGeoLat + " , lng: " + tweetGeoLng + " ) ");
+    //console.log("=== NEW TWEET FROM  ===> " + tweetGeoLabel + " ( lat: " + tweetGeoLat + " , lng: " + tweetGeoLng + " ) ");
 });
 
-
-
 //  BITCOIN REAL TIME CONSUMER
-btcConsumer.on('message', function(message) {
-    console.log("=== BITCOIN NEW VALUE ===> " + message.value.value + " USD");
-    io.sockets.emit('rtbtc', { msg: message.value.value });
-    rtbtc = message.value.value;
+btcConsumer.on('message', function(btc) {
+
+    var obj2 = JSON.parse(btc.value);
+
+    io.sockets.emit('rtbtc', { msg: obj2.value });
+    rtbtc = obj2.value;
+
+    //console.log("=== BITCOIN NEW VALUE ===> " + obj2.value + " USD");
 });
 
 setInterval(function() {
@@ -291,12 +263,11 @@ setInterval(function() {
 // MONGO DB IMPORTANCE EACH 1M
 // =============================================================================
 
-
-setInterval(function() {
+function impoUpdate() {
     clientMongo.connect(urlMongo, function(err, db) {
         if (err) throw err;
         var dbo = db.db("flousseeker");
-        dbo.collection("importances").find({}).toArray(function(err, result) {
+        dbo.collection("Importances").find({}).toArray(function(err, result) {
             if (err) throw err;
 
             importance = [];
@@ -307,16 +278,22 @@ setInterval(function() {
             result.forEach(function(impo) {
                 importanceData.push(impo.geolocalisation.lat);
                 importanceData.push(impo.geolocalisation.lng);
-                importanceData.push(impo.prc * 30);
+                importanceData.push(impo.prc * 20);
             });
 
             importance.push(importanceData);
 
             db.close();
 
-            console.log("=== TWEET IMPORTANCE UPDATED ===");
+            //console.log("=== TWEET IMPORTANCE UPDATED ===");
         });
     });
+}
+
+impoUpdate();
+
+setInterval(function() {
+    impoUpdate();
 }, 60000);
 
 // START THE SERVER

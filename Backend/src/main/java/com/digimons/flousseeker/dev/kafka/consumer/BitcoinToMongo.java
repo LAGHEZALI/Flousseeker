@@ -11,6 +11,8 @@ public class BitcoinToMongo extends Thread {
 
     private static final String topicName = "rtbtc";
 
+    private static boolean debug = true;
+
     private static Bitcoin ValeurBitcoin;
 
     private static MongoClient client = new MongoClient("127.0.0.1", 27017);
@@ -19,10 +21,14 @@ public class BitcoinToMongo extends Thread {
     private static Document document;
     private static Gson gson = new Gson();
 
+    public BitcoinToMongo(boolean debug) {
+        BitcoinToMongo.debug = debug;
+    }
+
     @Override
     public void run() {
 
-        GenericConsumer.listen(topicName, Bitcoin.class, false, vB -> {
+        GenericConsumer.listen(topicName, Bitcoin.class, debug, vB -> {
             ValeurBitcoin = (Bitcoin) vB;
             document = new Document();
             document = Document.parse(gson.toJson(ValeurBitcoin));

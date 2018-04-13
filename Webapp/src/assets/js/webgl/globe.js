@@ -157,7 +157,7 @@ DAT.Globe = function(container, opts) {
 
     opts.animated = opts.animated || false;
     this.is_animated = opts.animated;
-    opts.format = opts.format || 'magnitude'; // other option is 'legend'
+    opts.format = opts.format || 'magnitude';
     if (opts.format === 'magnitude') {
       step = 3;
       colorFnWrapper = function(data, i) { return colorFn(data[i+2]); }
@@ -171,17 +171,16 @@ DAT.Globe = function(container, opts) {
     if (opts.animated) {
       if (this._baseGeometry === undefined) {
         this._baseGeometry = new THREE.Geometry();
+        console.log('Start Creating globe ...');
         for (i = 0; i < data.length; i += step) {
           lat = data[i];
           lng = data[i + 1];
           size = data[i + 2];
-
-          console.log('lat = ' + lat + ' - lng = ' + lng + ' - size = ' + size)
-
           color = colorFnWrapper(data,i);
           size = 0;
           addPoint(lat, lng, size, color, this._baseGeometry);
         }
+        console.log('Globe Created ...');
       }
       if(this._morphTargetId === undefined) {
         this._morphTargetId = 0;

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.NoSuchElementException;
 
 public class Geocoder {
 
@@ -39,7 +40,7 @@ public class Geocoder {
     private static TwitterStream twitterStream ;
     private static StatusListener listener;
 
-    public static void fillGeocoder() {
+    public static void fillGeocoder(boolean debug) {
         getTweetConf();
         twitterStream = new TwitterStreamFactory(configurationBuilder.build()).getInstance();
         listener = new StatusListener() {
@@ -47,7 +48,7 @@ public class Geocoder {
             public void onStatus(Status status) {
                 geo = status.getUser().getLocation();
                 if(geo !=null && geo.length() > 0) {
-                    Geocoder.getGeolocalisation(geo);
+                    Geocoder.getGeolocalisation(geo, debug);
                 }
             }
 
@@ -80,17 +81,21 @@ public class Geocoder {
                 .setOAuthAccessTokenSecret("Hac3D9sXJda479CwyPJaPJDtDhTEseE0yxV7xDv2WYyYG");
     }
 
-    public static Geolocalisation getGeolocalisation(String label) {
+    public static Geolocalisation getGeolocalisation(String label, boolean debug) {
 
         Geocoder.geolocalisation = getGeolocalisationFromLocal(label);
         if(Geocoder.geolocalisation != null) {
-            System.out.println("=== FROM LOCAL ===" + Geocoder.geolocalisation);
+            if(debug) {
+                System.out.println("=== FROM LOCAL ===" + Geocoder.geolocalisation);
+            }
             return Geocoder.geolocalisation;
         } else {
             Geocoder.geolocalisation = getGeolocalisationFromGoogle(label);
             if (Geocoder.geolocalisation != null) {
                 Geocoder.updateGeocoderCollection(Geocoder.geolocalisation);
-                System.out.println("=== FROM GOOGLE ===" + Geocoder.geolocalisation);
+                if (debug) {
+                    System.out.println("=== FROM GOOGLE ===" + Geocoder.geolocalisation);
+                }
                 return Geocoder.geolocalisation;
             } else {
                 return null;
@@ -138,11 +143,17 @@ public class Geocoder {
         cursor = collection.find(query).iterator();
 
         if (cursor.hasNext()) {
-            Geocoder.geolocalisation = gson.fromJson(cursor.next().toJson(), Geolocalisation.class);
+            try {
+                Geocoder.geolocalisation = gson.fromJson(cursor.next().toJson(), Geolocalisation.class);
+            } catch (Exception e) {
+                Geocoder.geolocalisation = null;
+            }
         } else {
             Geocoder.geolocalisation = null;
         }
-        cursor.close();
+        try {
+            cursor.close();
+        } catch (Exception ignored) {}
         return Geocoder.geolocalisation;
     }
 

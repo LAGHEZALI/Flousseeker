@@ -1,5 +1,6 @@
 package com.digimons.flousseeker.dev.spark;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.broadcast.Broadcast;
@@ -12,6 +13,11 @@ import com.digimons.flousseeker.dev.spark.utils.*;
 import com.digimons.flousseeker.dev.spark.mllib.*;
 
 public class TweetSentimentAnalyzer {
+
+	private  static ClassLoader classLoader = TweetSentimentAnalyzer.class.getClassLoader();
+	private  static String stopWordsPath = Objects.requireNonNull(classLoader.getResource("MLlib/NLTK_English_Stopwords_Corpus.txt")).getPath().substring(1);
+	private  static String modelPath = Objects.requireNonNull(classLoader.getResource("MLlib/NBModel")).getPath().substring(1);
+
 	private  static JavaStreamingContext ssc;
 	private  static NaiveBayesModel naiveBayesModel;
 	private  static Broadcast<List<String>> stopWordsList;
@@ -29,7 +35,7 @@ public class TweetSentimentAnalyzer {
 	}
 
 	private static  void createSparkStreamingContextAndModel() {
-		System.setProperty("hadoop.home.dir", "C:");
+		System.setProperty("hadoop.home.dir", "D:\\DevTools\\hadoop");
 		SparkConf sparkConf = new SparkConf().setAppName("SOME APP NAME").
 				setMaster("local[2]").
 				set("spark.executor.memory","3g")
@@ -40,10 +46,11 @@ public class TweetSentimentAnalyzer {
 
 		TweetSentimentAnalyzer.ssc= new JavaStreamingContext(sparkConf, Durations.seconds(15));
 		LogUtils.setLogLevels(ssc.sparkContext());
-		TweetSentimentAnalyzer.naiveBayesModel= NaiveBayesModel.load(ssc.sparkContext().sc(), "assets/MLlib/NBModel");
-		TweetSentimentAnalyzer.stopWordsList = ssc.
-				sparkContext()
-				.broadcast(StopwordsLoader.loadStopWords("assets/MLlib/NLTK_English_Stopwords_Corpus.txt"));
+
+		TweetSentimentAnalyzer.naiveBayesModel= NaiveBayesModel.load(ssc.sparkContext().sc(), modelPath);
+
+		TweetSentimentAnalyzer.stopWordsList = ssc.sparkContext()
+				.broadcast(StopwordsLoader.loadStopWords(stopWordsPath));
 
 		System.out.println("TweetSentimentAnalyzer Started...");
 	}
@@ -54,7 +61,7 @@ public class TweetSentimentAnalyzer {
 			TweetSentimentAnalyzer.createSparkStreamingContextAndModel();
 			TweetSentimentAnalyzer.isRunning = true;
 		} else {
-			System.out.println("TweetSentimentAnalyzer already Started...");
+			//System.out.println("TweetSentimentAnalyzer already Started...");
 		}
 		return MLlibSentimentAnalyzer.computeSentiment(tweet,
 				TweetSentimentAnalyzer.stopWordsList, TweetSentimentAnalyzer.naiveBayesModel);

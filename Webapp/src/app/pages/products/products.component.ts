@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { EventHandlerService } from "../../shared/services/event-handler.service";
+
 
 @Component({
   selector: 'app-products',
@@ -6,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
+  @ViewChild('stepper') stepper;
 
-  constructor() { }
+  private step:number = 0;
+
+  constructor(private stepService: EventHandlerService) { 
+    this.step = this.stepService.getstep();
+  }
 
   complete = true;
 
@@ -28,6 +36,13 @@ export class ProductsComponent implements OnInit {
   ];
 
   ngOnInit() {
+    this.stepper.selectedIndex = this.step;
+  }
+
+  updateStep(event) {
+    setTimeout(() =>  {
+      this.stepService.setstep(this.stepper.selectedIndex);
+    }, 100);
   }
 
 }

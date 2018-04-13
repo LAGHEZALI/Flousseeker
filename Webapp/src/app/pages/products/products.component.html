@@ -1,6 +1,6 @@
 <ng-container class="container bgfg" >
 
-  <mat-horizontal-stepper class="bgfg" [linear]="true" #stepper="matHorizontalStepper">
+  <mat-horizontal-stepper class="bgfg" [linear]="true" (selectionChange)="updateStep($event)" #stepper="matHorizontalStepper">
 
     <ng-template matStepperIcon="edit">
       <mat-icon><i class="fab fa-foursquare" style="padding-left: 2px"></i></mat-icon>

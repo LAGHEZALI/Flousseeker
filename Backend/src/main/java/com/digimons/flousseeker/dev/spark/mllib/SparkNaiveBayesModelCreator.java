@@ -34,7 +34,7 @@ import com.digimons.flousseeker.dev.spark.utils.StopwordsLoader;
 
 public class SparkNaiveBayesModelCreator {
 	public static long i=0;
-	public static void main(String[] args) {
+	public static void run() {
 
 		SparkConf sparkConf = new SparkConf().setAppName("SOME APP NAME").
 				setMaster("local[2]").

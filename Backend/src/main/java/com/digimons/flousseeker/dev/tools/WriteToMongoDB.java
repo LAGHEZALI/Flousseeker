@@ -51,14 +51,13 @@ public final class WriteToMongoDB {
 
         System.setProperty("hadoop.home.dir", "D:\\DevTools\\hadoop");
 
-
         Alltweets= FromMongo.getRDD("Tweets");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        WriteToMongoDB.loadSpark("importances");
+        WriteToMongoDB.loadSpark("Importances");
           JavaSparkContext jsc = new JavaSparkContext(WriteToMongoDB.spark.sparkContext());
         JavaMongoRDD<Document> rdd = MongoSpark.load(jsc);
 
@@ -69,16 +68,12 @@ public final class WriteToMongoDB {
         .collect(Collectors.toCollection(ArrayList::new));
 
         rdd.foreach(I->{
-
             Document geo=(Document) I.get("geolocalisation");
             long n=(I.getInteger("nb")+newtweets.stream()
-                    .filter(T-> T.egale(geo.getDouble("lng")
-                                        ,geo.getDouble("lat")))
-                                 .count());
+                    .filter(T-> T.egale(geo.getDouble("lng"), geo.getDouble("lat")))
+                     .count());
             impotance.add(new Important((double)n/(double)WriteToMongoDB.nballtweets,n,
-                          new Geolocalisation(geo.getString("label"),
-                                  geo.getDouble("lat"),
-                                  geo.getDouble("lng"))));
+                          new Geolocalisation(geo.getString("label"), geo.getDouble("lat"), geo.getDouble("lng"))));
 
             WriteToMongoDB.newtweets=WriteToMongoDB.newtweets.stream()
                     .filter(T-> !T.egale(geo.getDouble("lng"),geo.getDouble("lat")))
@@ -105,13 +100,8 @@ public final class WriteToMongoDB {
         collection.deleteMany(document);
 MongoSpark.save(sparkDocuments);
 
-
         jsc.close();
-
-
-
     }
-
 
     public  static void updateTweets(){
         WriteToMongoDB.newtweets    = WriteToMongoDB.Alltweets.stream()
@@ -130,12 +120,8 @@ MongoSpark.save(sparkDocuments);
         WriteToMongoDB.loadSpark("Tweets");
         JavaSparkContext jsc = new JavaSparkContext(WriteToMongoDB.spark.sparkContext());
 
-
-
         JavaRDD<Document> sparkDocuments = jsc.parallelize(Alltweets).map
                 ((Function<Tweet, Document>) i -> Document.parse(gson.toJson(i)));
-
-
 
         BasicDBObject document = new BasicDBObject();
 
@@ -144,14 +130,13 @@ MongoSpark.save(sparkDocuments);
         MongoSpark.save(sparkDocuments);
 
         jsc.close();
-        WriteToMongoDB.loadSpark("sentiments");
+        WriteToMongoDB.loadSpark("Sentiments");
         long pos= WriteToMongoDB.newtweets .stream().filter(T-> T.getPolarity()==1).count();
         long neg=WriteToMongoDB.newtweets .stream().filter(T-> T.getPolarity()==2).count();
         long neu=WriteToMongoDB.newtweets .stream().filter(T-> T.getPolarity()==0).count();
         Document d;
         d=Document.parse(gson.toJson(new Sentiment(pos,neg,neu)));
         collection.insertOne(d);
-
     }
 
     static private void loadSpark(String collectionName) {

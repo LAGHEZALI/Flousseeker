@@ -8,23 +8,33 @@ import com.digimons.flousseeker.dev.tools.Geocoder;
 import com.digimons.flousseeker.dev.tools.TweetSearch;
 import com.digimons.flousseeker.dev.tools.WriteToMongoDB;
 
+import java.io.File;
+import java.util.Objects;
 
 public class Driver {
     public static void main(String[] args) {
 
-    /*
-        new BitcoinStreaming(true).start();
-        new TweetStreaming(true).start();
-        new TweetToMongo(true).start();
-        new BitcoinToMongo().start();
-    */
+        //getApiData();
 
-        //WriteToMongoDB.updateimpo();
-        //WriteToMongoDB.updateTweets();
+        //runAnalytics();
 
+        //Geocoder.fillGeocoder(true);
 
-        //Geocoder.fillGeocoder();
+        //TweetSearch.searchByDay("2018-03-24", "2018-03-25", true);
+    }
 
-        //TweetSearch.searchByDay("2018-03-24", "2018-03-25");
+    private static void getApiData() {
+        new BitcoinStreaming(false).start();
+        new TweetStreaming(false).start();
+
+        new TweetToMongo(false).start();
+        new BitcoinToMongo(false).start();
+
+        System.out.println("GET API DATA STARTED ...");
+    }
+
+    private static void runAnalytics() {
+        WriteToMongoDB.updateimpo();
+        WriteToMongoDB.updateTweets();
     }
 }

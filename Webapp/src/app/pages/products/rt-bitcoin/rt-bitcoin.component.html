@@ -18,8 +18,8 @@
           </ng2-odometer> <i class="ktaba2"> USD</i>
 
           <p>
-            <button class="w3-xlarge w3-margin" color="primary" mat-raised-button> <i class="fas fa-exchange-alt" style="margin-right: 10px"></i>More Conversions</button>
-            <button class="w3-xlarge w3-margin" color="primary" mat-raised-button> <i class="fas fa-shopping-cart" style="margin-right: 10px"></i>Buy Some</button>
+            <button routerLink="/products/currencyConverter" class="w3-xlarge w3-margin" color="primary" mat-raised-button> <i class="fas fa-exchange-alt" style="margin-right: 10px"></i>More Conversions</button>
+            <button (click)="buy()" class="w3-xlarge w3-margin" color="primary" mat-raised-button> <i class="fas fa-shopping-cart" style="margin-right: 10px"></i>Buy Some</button>
           </p>
 
         </div>

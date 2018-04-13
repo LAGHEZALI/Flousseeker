@@ -59,7 +59,7 @@ public class TweetSearch {
         return new TwitterFactory(cb.build()).getInstance();
     }
 
-    public static void searchByDay(String since, String until) {
+    public static void searchByDay(String since, String until, boolean debug) {
         long maxID = -1;
         Twitter twitter = getTwitter();
         try {
@@ -93,7 +93,7 @@ public class TweetSearch {
                     }
                     geoLabel = status.getUser().getLocation();
                     if(geoLabel != null && geoLabel.length() > 0) {
-                        geo = Geocoder.getGeolocalisation(geoLabel);
+                        geo = Geocoder.getGeolocalisation(geoLabel, debug);
                         if(geo != null) {
                             document = new Document();
                             document=Document.parse(gson.toJson(

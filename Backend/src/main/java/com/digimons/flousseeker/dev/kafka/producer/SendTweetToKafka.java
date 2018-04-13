@@ -23,7 +23,7 @@ public class SendTweetToKafka extends Thread {
 
     @Override
     public void run() {
-        geo = Geocoder.getGeolocalisation(label);
+        geo = Geocoder.getGeolocalisation(label, debug);
         if( geo != null ) {
             GenericProducer.send(new Tweet(SendTweetToKafka.userName, SendTweetToKafka.text, SendTweetToKafka.time, SendTweetToKafka.geo, -1), SendTweetToKafka.topicName, SendTweetToKafka.debug);
         }
