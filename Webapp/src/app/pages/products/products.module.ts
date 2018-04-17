@@ -14,8 +14,8 @@ import { GeoCurrencyStatisticsComponent } from './geo-currency-statistics/geo-cu
 import { GeoCurrencyPingsComponent } from './geo-currency-pings/geo-currency-pings.component';
 import { RtBitcoinComponent } from './rt-bitcoin/rt-bitcoin.component';
 import { CurrencyConverterComponent } from './currency-converter/currency-converter.component';
-
 import { StatisticsModule } from './statistics/statistics.module';
+import { PredictionComponent } from './prediction/prediction.component';
 
 @NgModule({
   imports: [
@@ -33,7 +33,8 @@ import { StatisticsModule } from './statistics/statistics.module';
     GeoCurrencyStatisticsComponent,
     GeoCurrencyPingsComponent,
     RtBitcoinComponent,
-    CurrencyConverterComponent
+    CurrencyConverterComponent,
+    PredictionComponent
   ]
 })
 

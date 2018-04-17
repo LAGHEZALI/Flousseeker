@@ -6,13 +6,16 @@ import { GeoCurrencyStatisticsComponent } from './geo-currency-statistics/geo-cu
 import { GeoCurrencyPingsComponent } from './geo-currency-pings/geo-currency-pings.component';
 import { RtBitcoinComponent } from './rt-bitcoin/rt-bitcoin.component';
 import { CurrencyConverterComponent } from './currency-converter/currency-converter.component';
+import { PredictionComponent } from './prediction/prediction.component';
+
 
 const routes: Routes = [
   { path: 'products', component: ProductsComponent },
   { path: 'products/geoCurrencyGlobe', component: GeoCurrencyStatisticsComponent },
   { path: 'products/geoCurrencyPings', component: GeoCurrencyPingsComponent },
   { path: 'products/realTimeBitcoin', component: RtBitcoinComponent },
-  { path: 'products/currencyConverter', component: CurrencyConverterComponent }
+  { path: 'products/currencyConverter', component: CurrencyConverterComponent },
+  { path: 'products/prediction', component: PredictionComponent }
 ];
 
 @NgModule({
